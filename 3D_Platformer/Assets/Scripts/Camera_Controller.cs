@@ -9,7 +9,7 @@ public class Camera_Controller : MonoBehaviour {
 	public Vector3 offSetFromTarget = new Vector3(0, 2 ,-4);
 
 	private Vector3 destination = Vector3.zero;
-	Character_Controller characterController;
+	Player characterController;
 	float rotateVel = 0;
 
 	void Start() {
@@ -22,8 +22,8 @@ public class Camera_Controller : MonoBehaviour {
 		this.target = target;
 
 		if (this.target != null) {
-			if (this.target.GetComponent<Character_Controller> ())
-				characterController = this.target.GetComponent<Character_Controller> ();
+			if (this.target.GetComponent<Player> ())
+				characterController = this.target.GetComponent<Player> ();
 		} else
 			Debug.LogError ("La cámara necesita un target.");
 	}
