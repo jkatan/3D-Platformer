@@ -17,6 +17,9 @@ public class StandingState : IPlayerState {
 
 	public void handleInput(Player player) {
 
+		if (!player.Grounded ())
+			player.Fall ();
+
 		if (Input.GetKey(KeyCode.A)) {
 			player.turnLeft();
 		}
@@ -25,15 +28,8 @@ public class StandingState : IPlayerState {
 			player.turnRight();
 		}
 
-		if (Input.GetKey (KeyCode.W)) {
+		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S)) {
 			player.changeState (WalkingState.Instance);
-			player.changeDirection (1);
-			return;
-		}
-
-		if (Input.GetKey (KeyCode.S)) {
-			player.changeState (WalkingState.Instance);
-			player.changeDirection (-1);
 			return;
 		}
 

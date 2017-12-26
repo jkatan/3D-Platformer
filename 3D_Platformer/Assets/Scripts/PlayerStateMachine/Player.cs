@@ -9,7 +9,7 @@ public class Player : MonoBehaviour {
 		public float forwardVelocity = 0.1f;
 		public float rotateVelocity = 100;
 		public float jumpVelocity = 4;
-		public float distanceToGround = 0.5f;
+		public float distanceToGround = 0.1f;
 		public LayerMask ground;
 	}
 
@@ -32,7 +32,6 @@ public class Player : MonoBehaviour {
 
 	private IPlayerState playerState;
 	private Rigidbody rigidBody;
-	private int direction = 1;
 
 	public Quaternion CurrentRotation {
 		get { return transform.rotation; }
@@ -50,6 +49,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerState.handleInput (this);
+		Debug.Log (playerState);
 	}
 
 	public void changeState(IPlayerState newState) {
@@ -57,7 +57,9 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Run() {
-		transform.Translate (Vector3.forward * Time.deltaTime * direction * moveSettings.forwardVelocity);
+		Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
+		currVel.z = Input.GetAxis (inputSettings.FORWARD_AXIS) * moveSettings.forwardVelocity;
+		rigidBody.velocity = transform.TransformDirection(currVel);
 	}
 
 	public void turnRight() {
@@ -68,15 +70,27 @@ public class Player : MonoBehaviour {
 		transform.Rotate (Vector3.up * Time.deltaTime * -1 * moveSettings.rotateVelocity);
 	}
 
-	public void changeDirection(int dir) {
-		direction = dir;
-	}
-
 	public bool Grounded() {
 		return Physics.Raycast (transform.position, Vector3.down, moveSettings.distanceToGround, moveSettings.ground);
 	}
 
 	public void Jump() {
-		rigidBody.AddForce (transform.up * moveSettings.jumpVelocity, ForceMode.Impulse);
+		Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
+		currVel.y = moveSettings.jumpVelocity;
+		rigidBody.velocity = transform.TransformDirection(currVel);
+	}
+
+	public void Fall() {
+		Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
+		currVel.y -= physicsSettings.downAcceleration;
+		rigidBody.velocity = transform.TransformDirection(currVel);
+	}
+
+	public void StopFalling() {
+		rigidBody.velocity = transform.up * 0;
+	}
+
+	public void Stop() {
+		rigidBody.velocity = Vector3.zero;
 	}
 }

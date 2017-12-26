@@ -19,6 +19,9 @@ public class WalkingState : IPlayerState {
 
 		player.Run ();
 
+		if (!player.Grounded ())
+			player.Fall ();
+
 		if (Input.GetKey(KeyCode.A)) {
 			player.turnLeft();
 		}
@@ -29,6 +32,7 @@ public class WalkingState : IPlayerState {
 
 		if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.S)) {
 			player.changeState (StandingState.Instance);
+			player.Stop ();
 		}
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
