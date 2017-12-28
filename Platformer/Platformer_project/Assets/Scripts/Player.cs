@@ -37,7 +37,6 @@ public class Player : MonoBehaviour {
 		get { return transform.rotation; }
 	}
 
-	// Use this for initialization
 	void Start () {
 		playerState = StandingState.Instance;
 		if (GetComponent<Rigidbody> ())
@@ -46,10 +45,8 @@ public class Player : MonoBehaviour {
 			Debug.LogError ("El personaje necesita un rigidbody.");
 	}
 
-	// Update is called once per frame
 	void Update () {
 		playerState.handleInput (this);
-		Debug.Log (playerState);
 	}
 
 	public void changeState(IPlayerState newState) {
@@ -75,19 +72,17 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Jump() {
-		Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
+		/*Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
 		currVel.y = moveSettings.jumpVelocity;
-		rigidBody.velocity = transform.TransformDirection(currVel);
+		rigidBody.velocity = transform.TransformDirection(currVel);*/
+
+		rigidBody.AddForce (new Vector3 (0, moveSettings.jumpVelocity, 0), ForceMode.Impulse);
 	}
 
 	public void Fall() {
 		Vector3 currVel = transform.InverseTransformDirection(rigidBody.velocity);
 		currVel.y -= physicsSettings.downAcceleration;
 		rigidBody.velocity = transform.TransformDirection(currVel);
-	}
-
-	public void StopFalling() {
-		rigidBody.velocity = transform.up * 0;
 	}
 
 	public void Stop() {

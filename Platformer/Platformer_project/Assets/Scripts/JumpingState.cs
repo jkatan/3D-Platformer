@@ -18,8 +18,6 @@ public class JumpingState : IPlayerState {
 
 	public void handleInput(Player player) {
 
-		player.Fall ();
-
 		if (Input.GetKey(KeyCode.A)) {
 			player.turnLeft();
 		}
@@ -28,9 +26,9 @@ public class JumpingState : IPlayerState {
 			player.turnRight();
 		}
 
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S)) {
+		/*if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S)) {
 			player.Run ();
-		}
+		}*/
 
 		if (Input.GetKeyDown (KeyCode.Space) && !doubleJump) {
 			player.Jump ();
@@ -39,7 +37,6 @@ public class JumpingState : IPlayerState {
 
 		if (player.Grounded ()) {
 			player.changeState (StandingState.Instance);
-			player.StopFalling ();
 			doubleJump = false;
 		}
 	}
