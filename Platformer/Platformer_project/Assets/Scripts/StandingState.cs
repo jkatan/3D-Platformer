@@ -25,14 +25,10 @@ public class StandingState : IPlayerState {
 			player.turnRight();
 		}
 
-		/*if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S)) {
-			player.changeState (WalkingState.Instance);
-			return;
-		}*/
+		if (Input.GetButtonDown ("Fire1")) {
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			player.Jump ();
-			player.changeState (JumpingState.Instance);
+			if (player.ShootHook ())
+				player.State = HookedState.Instance;
 		}
 	}
 }
