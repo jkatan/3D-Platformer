@@ -43,9 +43,17 @@ public class Player : MonoBehaviour {
 		hookRenderer.SetPosition (0, transform.position);
 	}
 
-	public void ModifyHookLength() {
+	//Se achica la longitud del hook
+	public void HookUp() {
 		SoftJointLimit n = new SoftJointLimit ();
-		n.limit = hook.linearLimit.limit - Input.GetAxis ("Vertical") * Time.deltaTime * 5;
+		n.limit = hook.linearLimit.limit - Time.deltaTime * 5;
+		hook.linearLimit = n;
+	}
+
+	//Se alarga la longitud del hook
+	public void HookDown() {
+		SoftJointLimit n = new SoftJointLimit ();
+		n.limit = hook.linearLimit.limit + Time.deltaTime * 5;
 		hook.linearLimit = n;
 	}
 
@@ -55,6 +63,14 @@ public class Player : MonoBehaviour {
 		hook.yMotion = ConfigurableJointMotion.Free;
 		hook.zMotion = ConfigurableJointMotion.Free;
 		hookRenderer.enabled = false;
+	}
+
+	public void SwingFront() {
+		rigidBody.AddForce (transform.forward * 3, ForceMode.Impulse);
+	}
+
+	public void SwingBack() {
+		rigidBody.AddForce (-transform.forward * 3, ForceMode.Impulse);
 	}
 
 	//Devuelve True si se enganchó el hook, False en caso contrario

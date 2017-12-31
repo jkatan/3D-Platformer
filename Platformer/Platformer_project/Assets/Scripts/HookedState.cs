@@ -19,10 +19,21 @@ public class HookedState : IPlayerState {
 
 		player.UpdateHookRenderer ();
 
-		if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.S)) {
+		if (Input.GetKey (KeyCode.Q)) {
 			player.Wake ();
-			player.ModifyHookLength ();
+			player.HookUp ();
 		}
+
+		if (Input.GetKey (KeyCode.E)) {
+			player.Wake ();
+			player.HookDown ();
+		}
+
+		if (Input.GetKeyDown (KeyCode.W))
+			player.SwingFront ();
+
+		if (Input.GetKeyDown (KeyCode.S))
+			player.SwingBack ();
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			player.Wake ();
