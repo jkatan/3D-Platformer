@@ -75,13 +75,12 @@ public class Player : MonoBehaviour {
 
 	//Devuelve True si se enganchó el hook, False en caso contrario
 	public bool ShootHook() {
-		
-		Vector2 mousePos = Input.mousePosition;
-		Vector3 target = Camera.main.ScreenToWorldPoint (new Vector3 (mousePos.x, mousePos.y, 5));
+
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit = new RaycastHit (); //En hit se guarda la información del collider con el que colisiona el raycast
 
 		//Se verifica si el gancho chocó contra algo o no
-		if (Physics.Raycast (transform.position, target, out hit, 5)) {
+		if (Physics.Raycast(ray, out hit, 100)) {
 
 			//Se renderiza el hook
 			hookRenderer.SetPosition (0, transform.position);

@@ -19,6 +19,14 @@ public class HookedState : IPlayerState {
 
 		player.UpdateHookRenderer ();
 
+		if (Input.GetKey(KeyCode.A)) {
+			player.turnLeft();
+		}
+
+		if (Input.GetKey(KeyCode.D)) {
+			player.turnRight();
+		}
+
 		if (Input.GetKey (KeyCode.Q)) {
 			player.Wake ();
 			player.HookUp ();
