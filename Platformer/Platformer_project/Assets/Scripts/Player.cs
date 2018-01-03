@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
 	private IPlayerState playerState;
 	private Rigidbody rigidBody;
 	private ConfigurableJoint hook;
+	private int layerMask = ~ (1 << 8); //Bitmask para que el hook no colisione con el personaje
 
 	public Quaternion CurrentRotation {
 		get { return transform.rotation; }
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour {
 		hook.yMotion = ConfigurableJointMotion.Free;
 		hook.zMotion = ConfigurableJointMotion.Free;
 		hookRenderer.enabled = false;
+		Wake ();
 	}
 
 	public void SwingFront() {
@@ -80,8 +82,8 @@ public class Player : MonoBehaviour {
 		RaycastHit hit = new RaycastHit (); //En hit se guarda la información del collider con el que colisiona el raycast
 
 		//Se verifica si el gancho chocó contra algo o no
-		if (Physics.Raycast(ray, out hit, 100)) {
-
+		if (Physics.Raycast (ray, out hit, 100, layerMask)) {
+			
 			//Se renderiza el hook
 			hookRenderer.SetPosition (0, transform.position);
 			hookRenderer.SetPosition (1, hit.point);
@@ -90,7 +92,7 @@ public class Player : MonoBehaviour {
 			//Se conecta el hook con el punto de colisión
 			hook.connectedAnchor = hit.point;
 			SoftJointLimit newLimit = new SoftJointLimit ();
-			newLimit.limit = Vector3.Distance(transform.position, hit.point);
+			newLimit.limit = Vector3.Distance (transform.position, hit.point);
 			hook.linearLimit = newLimit;
 
 			//Se configura el hook para limitar correctamente el movimiento del personaje
@@ -100,7 +102,6 @@ public class Player : MonoBehaviour {
 
 			return true;
 		}
-
 		return false;
 	}
 
