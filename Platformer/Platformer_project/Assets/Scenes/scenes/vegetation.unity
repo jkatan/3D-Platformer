@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45260894, g: 0.5019951, b: 0.5818987, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bdd4cc270c1d242990ace4fed51731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windZone: {fileID: 0}
   windStrength: 1
   turbulence: 1
   windChangeInterval: 15
@@ -4347,7 +4348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa34d7b1e6f9b674ab79447d0a92a43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacle: {fileID: 2126773514}
+  obstacles:
+  - {fileID: 2126773514}
 --- !u!4 &2126773514
 Transform:
   m_ObjectHideFlags: 0

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GlobalWind : MonoBehaviour {
 
+    [Header("Wind Effector")]
+    [Space(10)]
+    [SerializeField]
+    WindZone windZone;
     [Header("Wind Attributes")]
     [Space(10)]
     [SerializeField]
@@ -26,9 +30,11 @@ public class GlobalWind : MonoBehaviour {
 
     void Update () {
 
-        float time = (Time.time - startTime) / windChangeInterval;
-        Vector4 currentWind = Vector4.Lerp(wind, targetWind, 0.5f * ( 1f - Mathf.Cos(Mathf.PI * time) ));
+        float time = ( Time.time - startTime ) / windChangeInterval;
+        Vector3 currentWind = Vector3.Lerp(wind, targetWind, 0.5f * ( 1f - Mathf.Cos(Mathf.PI * time) ));
         currentWind *= Mathf.PerlinNoise(Time.time * turbulence / 5f, 0f);
+        transform.LookAt(transform.position + currentWind);
+        windZone.windMain = currentWind.magnitude;
         Shader.SetGlobalVector("_Wind", currentWind);
     }
 
@@ -43,8 +49,8 @@ public class GlobalWind : MonoBehaviour {
         }
     }
 
-    Vector4 getRandomWind () {
+    Vector3 getRandomWind () {
 
-        return new Vector4(Random.value - 0.5f, (Random.value - 0.5f) / 10f, Random.value - 0.5f) * windStrength;
+        return new Vector3(Random.value - 0.5f, ( Random.value - 0.5f ) / 10f, Random.value - 0.5f) * windStrength;
     }
 }
