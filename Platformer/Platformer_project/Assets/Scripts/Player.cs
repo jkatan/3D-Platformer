@@ -11,13 +11,22 @@ public class Player : MonoBehaviour {
 		public LayerMask ground;
 	}
 
+	[System.Serializable]
+	public class PhysicsSettings {
+		public float hookVelocity = 3.0f;
+	}
+
+
 	public MoveSettings moveSettings = new MoveSettings();
+	public PhysicsSettings physicsSettings = new PhysicsSettings();
 	public LineRenderer hookRenderer;
+	public GameObject hookHead;
 
 	private IPlayerState playerState;
 	private Rigidbody rigidBody;
 	private ConfigurableJoint hook;
 	private int layerMask = ~ (1 << 8); //Bitmask para que el hook no colisione con el personaje
+	private GameObject cloneHookHead;
 
 	public Quaternion CurrentRotation {
 		get { return transform.rotation; }
@@ -42,6 +51,7 @@ public class Player : MonoBehaviour {
 	//Se actualiza el renderizado de la posición del origen del hook acorde al movimiento del jugador
 	public void UpdateHookRenderer() {
 		hookRenderer.SetPosition (0, transform.position);
+		hookRenderer.SetPosition (1, cloneHookHead.transform.position);
 	}
 
 	//Se achica la longitud del hook
@@ -64,6 +74,7 @@ public class Player : MonoBehaviour {
 		hook.yMotion = ConfigurableJointMotion.Free;
 		hook.zMotion = ConfigurableJointMotion.Free;
 		hookRenderer.enabled = false;
+		Destroy (cloneHookHead);
 		Wake ();
 	}
 
@@ -83,26 +94,34 @@ public class Player : MonoBehaviour {
 
 		//Se verifica si el gancho chocó contra algo o no
 		if (Physics.Raycast (ray, out hit, 100, layerMask)) {
+
+			Vector3 hookDirection = (hit.point - transform.position).normalized;
+			cloneHookHead = Instantiate (hookHead, transform.position, transform.rotation);
+			cloneHookHead.GetComponent<Rigidbody> ().velocity = hookDirection * physicsSettings.hookVelocity;
+			cloneHookHead.GetComponent<HookHeadScript> ().Player = this;
 			
 			//Se renderiza el hook
 			hookRenderer.SetPosition (0, transform.position);
-			hookRenderer.SetPosition (1, hit.point);
+			hookRenderer.SetPosition (1, cloneHookHead.transform.position);
 			hookRenderer.enabled = true;
-
-			//Se conecta el hook con el punto de colisión
-			hook.connectedAnchor = hit.point;
-			SoftJointLimit newLimit = new SoftJointLimit ();
-			newLimit.limit = Vector3.Distance (transform.position, hit.point);
-			hook.linearLimit = newLimit;
-
-			//Se configura el hook para limitar correctamente el movimiento del personaje
-			hook.xMotion = ConfigurableJointMotion.Limited;
-			hook.yMotion = ConfigurableJointMotion.Limited;
-			hook.zMotion = ConfigurableJointMotion.Limited;
 
 			return true;
 		}
 		return false;
+	}
+
+	public void setHookHead() {
+	
+		//Se conecta el hook con el punto de colisión
+		hook.connectedBody = cloneHookHead.GetComponent<Rigidbody>();
+		SoftJointLimit newLimit = new SoftJointLimit ();
+		newLimit.limit = Vector3.Distance (transform.position, cloneHookHead.transform.position);
+		hook.linearLimit = newLimit;
+
+		//Se configura el hook para limitar correctamente el movimiento del personaje
+		hook.xMotion = ConfigurableJointMotion.Limited;
+		hook.yMotion = ConfigurableJointMotion.Limited;
+		hook.zMotion = ConfigurableJointMotion.Limited;
 	}
 
 	public void Wake() {

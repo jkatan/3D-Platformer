@@ -43,16 +43,10 @@ public class HookedState : IPlayerState {
 		if (Input.GetKeyDown (KeyCode.S))
 			player.SwingBack ();
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetButtonUp ("Fire1")) {
 			player.Wake ();
 			player.FreeHook ();
 			player.State = StandingState.Instance;
-		}
-
-		if (Input.GetButtonDown ("Fire1")) {
-			player.FreeHook ();
-			if (!player.ShootHook ())
-				player.State = StandingState.Instance;
 		}
 	}
 }

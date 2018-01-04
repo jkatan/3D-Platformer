@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -548,7 +548,10 @@ MonoBehaviour:
     ground:
       serializedVersion: 2
       m_Bits: 4294967295
+  physicsSettings:
+    hookVelocity: 20
   hookRenderer: {fileID: 299254738}
+  hookHead: {fileID: 1876859171572090, guid: 85df9314cbb441a44af3c10d8ff87a6a, type: 2}
 --- !u!153 &831355856
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -921,7 +924,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4573639751147214, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.09
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 4573639751147214, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
       propertyPath: m_LocalPosition.y
@@ -929,7 +932,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4573639751147214, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -1.175
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 4573639751147214, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1006,6 +1009,10 @@ Prefab:
     - target: {fileID: 1645342969887900, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1907099872341046, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
+      propertyPath: m_Name
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9a5e6454a3e5829449d50d7ea1d0a963, type: 2}
@@ -1144,7 +1151,6 @@ GameObject:
   - component: {fileID: 1446524042}
   - component: {fileID: 1446524041}
   - component: {fileID: 1446524040}
-  - component: {fileID: 1446524039}
   - component: {fileID: 1446524038}
   m_Layer: 0
   m_Name: Main Camera (1)
@@ -1167,13 +1173,6 @@ MonoBehaviour:
   target: {fileID: 831355854}
   lookSmooth: 0.09
   offSetFromTarget: {x: 0, y: 0.7, z: -2}
---- !u!81 &1446524039
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1446524037}
-  m_Enabled: 1
 --- !u!124 &1446524040
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1187,7 +1186,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1446524037}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
