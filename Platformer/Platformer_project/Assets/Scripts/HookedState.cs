@@ -26,7 +26,7 @@ public class HookedState : IPlayerState {
 		if (Input.GetKey(KeyCode.D)) {
 			player.turnRight();
 		}
-
+			
 		if (Input.GetKey (KeyCode.Q)) {
 			player.Wake ();
 			player.HookUp ();
@@ -37,10 +37,10 @@ public class HookedState : IPlayerState {
 			player.HookDown ();
 		}
 
-		if (Input.GetKeyDown (KeyCode.W))
+		if (Input.GetKey (KeyCode.W))
 			player.SwingFront ();
 
-		if (Input.GetKeyDown (KeyCode.S))
+		if (Input.GetKey (KeyCode.S))
 			player.SwingBack ();
 
 		if (Input.GetButtonUp ("Fire1")) {
@@ -49,4 +49,4 @@ public class HookedState : IPlayerState {
 			player.State = StandingState.Instance;
 		}
 	}
-}
+} 

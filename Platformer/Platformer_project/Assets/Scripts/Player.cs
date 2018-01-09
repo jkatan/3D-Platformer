@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
 	[System.Serializable]
 	public class PhysicsSettings {
 		public float hookVelocity = 3.0f;
+		public float limitVelocity = 4.5f;
 	}
 
 
@@ -79,11 +80,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void SwingFront() {
-		rigidBody.AddForce (transform.forward * 3, ForceMode.Impulse);
+		if(rigidBody.velocity.magnitude < physicsSettings.limitVelocity)
+			rigidBody.AddForce (transform.forward, ForceMode.Impulse);
 	}
 
 	public void SwingBack() {
-		rigidBody.AddForce (-transform.forward * 3, ForceMode.Impulse);
+		if(rigidBody.velocity.magnitude < physicsSettings.limitVelocity)
+			rigidBody.AddForce (-transform.forward, ForceMode.Impulse);
 	}
 
 	//Devuelve True si se enganchó el hook, False en caso contrario

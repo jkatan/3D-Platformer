@@ -550,6 +550,7 @@ MonoBehaviour:
       m_Bits: 4294967295
   physicsSettings:
     hookVelocity: 20
+    limitVelocity: 4.5
   hookRenderer: {fileID: 299254738}
   hookHead: {fileID: 1876859171572090, guid: 85df9314cbb441a44af3c10d8ff87a6a, type: 2}
 --- !u!153 &831355856
